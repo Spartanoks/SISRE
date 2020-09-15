@@ -24,6 +24,8 @@
 			.logout:focus{
 				color: rgb(202, 62, 62) !important;
 			}
+		
+
 		</style>
 	</head>
 	<body class="is-preload">

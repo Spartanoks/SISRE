@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Usuario extends Model
+class Modulo extends Model
 {
 
   protected $connection = 'seguridad';
@@ -15,8 +15,5 @@ class Usuario extends Model
 
   //public $timestamps = false;
 
-  public function estatus()
-  {
-    return $this->belongsTo('App\Models\Estatus', 'estatus', 'id');
-  }
+ 
 }

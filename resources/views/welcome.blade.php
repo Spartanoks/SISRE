@@ -48,25 +48,17 @@
 
                 <section class="tiles">
 
-                    @php $array=
-                    array('1'=>'1','2'=>'2','3'=>'3')
-                    ; @endphp
-                    @foreach ($array as $arra => $valor)
-                        <article class="style2 uno">
-                            <style>
-                                .tiles article.uno>.image:before {
-                                    background-color: #19c0b2cc;
-                                     !important
-                                }
-
-                            </style>
+                   
+                    @foreach ($modulos as $modulo)
+                        <article class="style1 {!! $modulo->modulo->titulo !!}">
+                            @include('layouts.color')
                             <span class="image">
                                 <img src="images/pic01.jpg" alt="" />
                             </span>
-                            <a href="generic.html">
-                                <h2>Magna</h2>
+                            <a href="{!! route($modulo->modulo->ruta) !!}">
+                                <h2> {!! $modulo->modulo->titulo !!}</h2>
                                 <div class="content">
-                                    <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                                    <p>{!! $modulo->modulo->descripcion !!}</p>
                                 </div>
                             </a>
                         </article>
