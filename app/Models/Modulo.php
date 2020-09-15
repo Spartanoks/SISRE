@@ -10,7 +10,7 @@ class Usuario extends Model
   protected $connection = 'seguridad';
   protected $table = 'modulos';
   protected $primaryKey = 'id';
-  protected $fillable = ["titulo", "descripcion","color"];
+  protected $fillable = ["titulo", "descripcion","color","ruta"];
 
 
   //public $timestamps = false;

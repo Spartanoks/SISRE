@@ -34,7 +34,7 @@ class LoginController extends Controller
 
 
 
-            return view('welcome');
+            return redirect('/');
         } else {
             return 0;
         }

@@ -13,7 +13,16 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<style>
 			body{
-				margin-top: -10%; !important
+				margin-top: -10% !important;
+			}
+			.logout{
+				color: rgb(216, 58, 30) !important;
+				font-weight: bold;
+				text-align: center
+				
+			}
+			.logout:focus{
+				color: rgb(202, 62, 62) !important;
 			}
 		</style>
 	</head>

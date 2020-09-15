@@ -27,13 +27,13 @@
         <!-- Menu -->
         <nav id="menu">
             <h2> {{ ucfirst(session('nombreUsuario')) }} {{ ucfirst(session('apellidoUsuario')) }}</h2>
+            
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="generic.html">Ipsum veroeros</a></li>
-                <li><a href="generic.html">Tempus etiam</a></li>
-                <li><a href="generic.html">Consequat dolor</a></li>
-                <li><a href="elements.html">Elements</a></li>
-                <li><a href="{{ route('logout') }}">Logout</a></li>
+                @foreach ($menus as $menu)
+                <li><a href="{!! route($menu->menu->ruta) !!}">{!! $menu->menu->descripcion !!}</a></li>
+                @endforeach
+
+                <li><a title="Salir" class="logout" href="{{ route('logout') }}"> <i class="fa fa-power-off" aria-hidden="true"></i> </a></li>
             </ul>
         </nav>
 
@@ -49,7 +49,7 @@
                 <section class="tiles">
 
                     @php $array=
-                    array('1'=>'1','2'=>'2','3'=>'3',)
+                    array('1'=>'1','2'=>'2','3'=>'3')
                     ; @endphp
                     @foreach ($array as $arra => $valor)
                         <article class="style2 uno">

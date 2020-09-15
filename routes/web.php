@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Login\LoginController;
 use App\Http\Controllers\Usuario\UsuarioController;
+use App\Http\Controllers\Menu\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +29,6 @@ Route::get('register', function () {
 Route::middleware('Login')->group(function () {
 
 
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('/');
+    Route::get('/', [MenuController::class, 'main'])->name('/');
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 });
