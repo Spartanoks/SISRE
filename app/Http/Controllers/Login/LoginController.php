@@ -27,6 +27,8 @@ class LoginController extends Controller
             Session::put('nombreUsuario', $user[0]['nombre']);
             Session::put('apellidoUsuario', $user[0]['apellido']);
             Session::put('cedulaUsuario', $user[0]['cedula']);
+            Session::put('sucursalUsuario', $user[0]['sucursal']);
+            Session::put('oficinaUsuario', $user[0]['numero_oficina']);
             Session::put('correoUsuario', $user[0]['correo']);
             Session::put('cargoUsuario', $user[0]['cargo']);
             Session::put('usuario', strtolower($user[0]['nombre'] . '.' . $user[0]['apellido']));

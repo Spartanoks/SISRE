@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Login\LoginController;
 use App\Http\Controllers\Usuario\UsuarioController;
 use App\Http\Controllers\Menu\MenuController;
+use App\Http\Controllers\Reclamos\ReclamosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,4 +32,7 @@ Route::middleware('Login')->group(function () {
 
     Route::get('/', [MenuController::class, 'main'])->name('/');
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('reclamos', [ReclamosController::class, 'reclamos'])->name('reclamos');
+    Route::get('forma_pago', [ReclamosController::class, 'forma_pago'])->name('forma_pago');
+    Route::get('usuarios', [UsuarioController::class, 'listado'])->name('usuarios');
 });

@@ -159,6 +159,34 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label for="sucursal" class="col-md-4 col-form-label text-md-right">{{ __('Sucursal') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="sucursal" type="text" class="form-control @error('sucursal') is-invalid @enderror"
+                                        name="sucursal" value="{{ old('sucursal') }}" required  autofocus>
+
+                                    @error('sucursal')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="numero_oficina" class="col-md-4 col-form-label text-md-right">{{ __('Numero de la Oficina') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="numero_oficina" type="number" class="form-control @error('numero_oficina') is-invalid @enderror"
+                                        name="numero_oficina" value="{{ old('numero_oficina') }}" required  autofocus>
+
+                                    @error('numero_oficina')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
 
                             <div class="form-group row">
                                 <label for="password"

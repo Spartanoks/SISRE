@@ -10,7 +10,7 @@ class Tarjeta extends Model
   protected $connection = 'pgsql';
   protected $table = 'tarjeta';
   protected $primaryKey = 'id';
-  protected $fillable = [ "id_tipo_tarjeta"];
+  protected $fillable = [ "id_tipo_tarjeta","descripcion"];
 
 
   //public $timestamps = false;

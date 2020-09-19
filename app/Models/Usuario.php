@@ -10,7 +10,7 @@ class Usuario extends Model
   protected $connection = 'seguridad';
   protected $table = 'usuarios';
   protected $primaryKey = 'id';
-  protected $fillable = ["nombre", "apellido","cargo","cedula","estatus","password","correo"];
+  protected $fillable = ["nombre", "apellido","cargo","cedula","estatus","password","correo","sucursal","numero_oficina"];
 
 
   //public $timestamps = false;

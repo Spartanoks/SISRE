@@ -18,12 +18,10 @@ class MenuController extends Controller
     function main(Request $request)
     {
         $user = session('idUsuario');
-        $menus = AccesoMenu::all()->where('id_usuario','=',$user);
-        $modulos = AccesoUsuario::all()->where('id_usuario','=',$user);
+        $menus = AccesoMenu::all()->where('id_usuario', '=', $user);
+        $modulos = AccesoUsuario::all()->where('id_usuario', '=', $user);
 
 
-        return view('welcome', compact('menus','modulos'));
-        
+        return view('welcome', compact('menus', 'modulos'));
     }
-
 }
