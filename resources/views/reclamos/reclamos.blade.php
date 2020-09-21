@@ -1,51 +1,119 @@
 <script>
     $(document).ready(function() {
-        $('#credito').hide();
-        $('#numero_tarjeta').hide();
+    $('#credito').hide();
+    $('#numero_tarjeta').hide();
 
-        $('.tipo_tarjeta').change(function(e) {
-            var id = $(this).val();
+    $('.tipo_tarjeta').change(function(e) {
+        var id = $(this).val();
 
+        
+        if (id == 1) {
+            $('#credito').show();
+        } else {
+            $('#credito').hide();
+            $('.credito_select').val("");
 
-            if (id == 1) {
-                $('#credito').show();
-            } else {
-                $('#credito').hide();
-                $('.credito_select').val("");
+        }
+        if (id !== "") {
 
-            }
-            if (id !== "") {
+            $('#numero_tarjeta').show();
+            $('#numero_tarjeta').addClass('required');
+            //
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: "forma_pago",
+                data: "tarjeta=" + id,
+                dataType: 'html',
+                beforeSend: function() {
 
-                $('#numero_tarjeta').show();
-                $('#numero_tarjeta').addClass('required');
-                //
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    type: 'GET',
-                    url: "forma_pago",
-                    data: "tarjeta=" + id,
-                    dataType: 'html',
-                    beforeSend: function() {
+                },
+                success: function(response) {
 
-                    },
-                    success: function(response) {
+                    $('#forma_pago').val("Tarjeta de " + response)
 
-                        $('#forma_pago').val("Tarjeta de " + response)
+                }
+            });
+            //
+            $('#forma_pago').prop("readonly", true);
+        } else {
+            $('#numero_tarjeta').hide();
+            $('#numero_tarjeta').val("");
+            $('#numero_tarjeta').removeClass('required');
+        }
+    });
 
-                    }
-                });
-                //
-                $('#forma_pago').prop("disabled", true);
-            } else {
-                $('#numero_tarjeta').hide();
-                $('#numero_tarjeta').val("");
-                $('#numero_tarjeta').removeClass('required');
+    //
+
+    $('#regForm').submit(function(event) {
+
+        //
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $.ajax({
+                    type: 'POST',
+                    url: "{{ route('crearReclamo') }}",
+                    data: $("#regForm").serialize(),
+                    dataType: 'html',
+
+                    beforeSend: function() {},
+
+                    success: function(response) {
+                        //console.log(response);
+                        if (response == 0) {
+                            swal("Insertado!", "El reclamo ha sido efectuado exitosamente!",
+                                "success").then((value) => {
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $(
+                                            'meta[name="csrf-token"]').attr(
+                                            'content')
+                                    }
+                                });
+                                $.ajax({
+                                    type: 'GET',
+                                    url: "{{ route('/') }}",
+                                    dataType: 'html',
+                                    beforeSend: function() {
+                                        $("#wrapper").remove();
+                                    },
+                                    success: function(response) {
+                                        $("#body").html('<div id="wrapper"></div>');
+                                        $("#wrapper").append(response);
+                                    }
+                                });
+                            });
+                       
+
+                }
+                else {
+                    swal("Error!",
+                        "Algo ha ocurrido, el reclamo no fue creado por favor intente de nuevo.",
+                        "error");
+                }
+
+
+            },
+
+            error: function(data, status) {
+
+            }
+
+    });
+    //
+
+    event.preventDefault();
+
+    });
+
 
 
     });
@@ -94,7 +162,7 @@
     }
 
     .telf {
-        width: 40% !important;
+        width: 35% !important;
     }
 
 
@@ -116,11 +184,13 @@
 
     button:hover {
         opacity: 0.8 !important;
+        color: white !important;
 
     }
 
     #prevBtn {
         background-color: #bbbbbb !important;
+        color: #161616 !important;
     }
 
     /* Make circles that indicate the steps of the form: */
@@ -153,6 +223,11 @@
         height: 150px;
 
     }
+
+    .enviar {
+        text-align: center !important;
+    }
+
 
     .texto:focus {
         border: 2px solid #848484;
@@ -192,10 +267,10 @@
     }
 
 </style>
+<div id="inner" class="inner">
 
-
-<form id="regForm" action="/action_page.php">
-    <h1>Crear un reclamo</h1>
+<form id="regForm" action="">
+    <h1>Crear reclamo</h1>
 
     <!-- One "tab" for each step in the form: -->
     <div class="tab">
@@ -203,6 +278,7 @@
         <p><input class="name required" placeholder="Nombre..." name="nombre" autocomplete="off">
             <input class="name required" placeholder="Apellido..." name="apellido"></p>
         <br>
+
         Cedula del Cliente:
         <p><input type="number" placeholder="Cedula..." name="cedula" class="name required">
             Telefono:
@@ -266,7 +342,7 @@
     <div class="tab">
 
         Descripcion del reclamo:
-        <p><textarea class="texto" placeholder="E.J: Av. Plaza Venezuela..." name="direccion"
+        <p><textarea class="texto" placeholder="E.J: Av. Plaza Venezuela..." name="descripcion"
                 class="required"> </textarea></p>
         <br>
         Fecha:
@@ -283,7 +359,7 @@
         <p><input type="number" name="numero_atm"></p>
         <br>
         Nombre del banco u oficina donde se reucado la operacion:
-        <p><input placeholder="E.J: Banco del Tesoro..." class="required"></p>
+        <p><input placeholder="E.J: Banco del Tesoro..." name="insitucion_recaudo" class="required"></p>
         <br>
         Forma de Pago:
         <p><input id="forma_pago" placeholder="E.J: Debito..." name="forma_pago" class="required"></p>
@@ -314,28 +390,21 @@
         <div class="titulo">
             <p> Tarjeta Bin perforar
                 <br>
-                <input type="radio" id="yes" name="tarjeta_bin" value="yes">
+                <input type="radio" id="yes" name="tarjeta_bin" value="true">
                 <label for="yes">SI</label><br>
-                <input type="radio" id="no" name="tarjeta_bin" value="no">
+                <input type="radio" id="no" name="tarjeta_bin" value="false">
                 <label for="no">NO</label><br>
             </p>
         </div>
+        <div class="enviar">
+            <button type="submit">enviar</button>
+        </div>
+        <br>
+
     </div>
 
     <!-- -->
 
-    <div class="tab">
-        Area Resolutoria:
-        <select class="selector required" name="tipo_servicio">
-            <option value="" selected>...</option>
-            @foreach ($servicios as $servicio)
-                <option value="{{ $servicio->id }}">{{ $servicio->descripcion }}
-                </option>
-            @endforeach
-
-        </select>
-    </div>
-    <br>
 
     <!-- -->
 
@@ -350,10 +419,9 @@
         <span class="step"></span>
         <span class="step"></span>
         <span class="step"></span>
-        <span class="step"></span>
     </div>
 </form>
-
+</div>
 <script>
     var currentTab = 0; // Current tab is set to be the first tab (0)
     showTab(currentTab); // Display the current tab
@@ -369,9 +437,10 @@
             document.getElementById("prevBtn").style.display = "inline";
         }
         if (n == (x.length - 1)) {
-            document.getElementById("nextBtn").innerHTML = "Enviar";
+            document.getElementById("nextBtn").style.display = "none";
         } else {
             document.getElementById("nextBtn").innerHTML = "Siguiente";
+            document.getElementById("nextBtn").style.display = "inline";
         }
         //... and run a function that will display the correct step indicator:
         fixStepIndicator(n)
@@ -389,23 +458,16 @@
         // if you have reached the end of the form...
         if (currentTab >= x.length) {
             // ... the form gets submitted:
-            //document.getElementById("regForm").submit();
-            
-            enviar();
+            document.getElementById("regForm").submit();
+
             return false;
         }
         // Otherwise, display the correct tab:
         showTab(currentTab);
     }
 
-    //
 
-    function enviar() {
-      alert("enviado desde la funcion");
-    }
 
-    //
-    
     function validateForm() {
         // This function deals with validation of the form fields
         var x, y, i, valid = true;
@@ -415,7 +477,7 @@
         for (i = 0; i < y.length; i++) {
             // If a field is empty...
             if (y[i].value == "") {
-              
+
                 // add an "invalid" class to the field:
                 y[i].className += " invalid";
                 // and set the current valid status to false

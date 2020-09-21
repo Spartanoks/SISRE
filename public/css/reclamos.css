@@ -1,0 +1,205 @@
+* {
+    box-sizing: border-box !important;
+}
+
+body {
+    background-color: #f1f1f1;
+}
+
+#regForm {
+    background-color: #ffffff;
+    margin: 100px auto;
+    font-family: Raleway;
+    padding: 40px;
+    width: 70%;
+    min-width: 300px;
+}
+
+h1 {
+    text-align: center;
+}
+
+input {
+    padding: 10px;
+    width: 100%;
+    font-size: 17px;
+    font-family: Raleway;
+    border: 1px solid #aaaaaa;
+}
+
+
+/* Mark input boxes that gets an error on validation: */
+.invalid {
+    background-color: #ffdddd;
+}
+
+/* Mark input boxes that gets an error on validation: */
+.name {
+    width: 49.5% !important;
+}
+
+.telf {
+    width: 35% !important;
+}
+
+
+
+/* Hide all steps by default: */
+.tab {
+    display: none;
+}
+
+button {
+    background-color: #4CAF50 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 10px 20px;
+    font-size: 17px;
+    font-family: Raleway;
+    cursor: pointer !important;
+}
+
+button:hover {
+    opacity: 0.8 !important;
+    color: white !important;
+
+}
+
+#prevBtn {
+    background-color: #bbbbbb !important;
+    color: #161616 !important;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
+
+.step.active {
+    opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+    background-color: #4CAF50;
+
+}
+
+.texto {
+    border: 2px solid #c6c3c8;
+
+    border-radius: 25px;
+    padding: 9px;
+    height: 150px;
+
+}
+
+.enviar {
+    text-align: center !important;
+}
+
+
+.texto:focus {
+    border: 2px solid #848484;
+
+    border-radius: 25px;
+    padding: 0px;
+
+
+}
+
+.selector {
+    border: none;
+}
+
+.titulo {
+    text-align: center !important;
+}
+
+
+
+input[type=number]::-webkit-outer-spin-button,
+
+input[type=number]::-webkit-inner-spin-button {
+
+    -webkit-appearance: none !important;
+
+    margin: 0 !important;
+
+}
+
+
+
+input[type=number] {
+
+    -moz-appearance: textfield !important;
+
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    float: right;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #1baa22;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #1baa22;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
