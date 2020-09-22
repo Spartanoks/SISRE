@@ -95,6 +95,7 @@
 
                 }
                 else {
+                    console.log(response)
                     swal("Error!",
                         "Algo ha ocurrido, el reclamo no fue creado por favor intente de nuevo.",
                         "error");

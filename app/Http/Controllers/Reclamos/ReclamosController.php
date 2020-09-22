@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reclamos;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\Reclamo;
 use App\Models\Tarjeta;
 use App\Models\Requerimiento;
 use App\Models\Servicio;
@@ -11,6 +12,7 @@ use App\Models\Tipo_tarjeta;
 use App\Models\Tarjeta_cliente;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 
@@ -69,9 +71,9 @@ class ReclamosController extends Controller
         $newReclamo->editar = false;
 
         try {
-
+           
             $newReclamo->save();
-
+            Mail::to('kevin.perez@spartan.com')->queue(new Reclamo($newReclamo));
 
             return 0;
         } catch (\Exception $e) {
@@ -111,7 +113,7 @@ class ReclamosController extends Controller
         $Reclamo->institucion_recaudo = $request->input('insitucion_recaudo');
 
         try {
-
+           
             $Reclamo->save();
             $Tarjeta->save();
 
