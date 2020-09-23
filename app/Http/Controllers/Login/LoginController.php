@@ -38,7 +38,7 @@ class LoginController extends Controller
 
             return redirect('/');
         } else {
-            return 0;
+            return redirect('login');
         }
     }
     function logout(Request $request)

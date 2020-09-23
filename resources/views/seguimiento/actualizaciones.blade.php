@@ -1,91 +1,64 @@
 <script>
     $(document).ready(function() {
-        $('#descomentar').click(function(e){
+        $('#descomentar').click(function(e) {
             $('.relative').hide();
             e.preventDefault();
         });
-        $('#comentar').click(function(e){
-            $('.relative').show();
-            e.preventDefault();
-        });
-        $('#comentario').keypress(function(e) {
-            var keycode = (e.keyCode ? e.keyCode : e.which);
-            if (keycode == '13') {
-                //
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('comentarReclamo') }}",
-                    data: $("#regForm").serialize(),
-                    dataType: 'html',
-
-                    beforeSend: function() {
-
-                    },
-                    success: function(response) {
-                        if (response == 0) {
-                           
-                            //
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]')
-                                        .attr('content')
-                                }
-                            });
-
-                            $.ajax({
-                                type: 'GET',
-                                url: "{{ route('buscarComentarios') }}",
-                                data: "reclamo=" + $('#reclamo').val(),
-                                dataType: 'html',
-
-                                beforeSend: function() {
-                                    $('#tbody').remove();
-                                    $('#comentario').val('')
-                                },
-                                success: function(response) {
-                                    
-                                    $(".tabla").html('<tbody id="tbody"></tbody>');
-                                        $("#tbody").append(response);
-                                        
-
-                                },
-
-                                error: function(data, status) {
-
-                                }
-
-                            });
-                            //
-                        } else {
-                            swal("Error!",
-                                "No se pudo realizar el comentario.",
-                                "error")
-                            console.log(response)
-                        }
-
-
-
-                    },
-
-                    error: function(data, status) {
-
-                    }
-
-                });
-                //
-                e.preventDefault();
-
-            }
-        });
-
-        $('#regForm').submit(function(event) {
-
+        $('#back').click(function(e) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $(
+                        'meta[name="csrf-token"]').attr(
+                        'content')
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('seguimiento_especifico') }}",
+                data: $("#regForm").serialize(),
+                dataType: 'html',
+                beforeSend: function() {
+                    $("#inner").remove();
+                },
+                success: function(response) {
+                    
+                    $("#main").html('<div id="inner" class="inner"></div>');
+                    $("#inner").append(response);
+                }
+            });
+        
+        e.preventDefault();
+    });
+    $('#print').click(function(e) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $(
+                        'meta[name="csrf-token"]').attr(
+                        'content')
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: "{{ route('return_reclamo') }}",
+                data: "reclamo="+$('#reclamo').val(),
+                dataType: 'html',
+                beforeSend: function() {
+                },
+                success: function(response) {
+                    
+                    window.open("pdf?reclamo="+response, "_blank");
+                }
+            });
+        
+        e.preventDefault();
+    });
+    $('#comentar').click(function(e) {
+        $('.relative').show();
+        e.preventDefault();
+    });
+    $('#comentario').keypress(function(e) {
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+        if (keycode == '13') {
             //
             $.ajaxSetup({
                 headers: {
@@ -104,11 +77,44 @@
                 },
                 success: function(response) {
                     if (response == 0) {
-                        $("#history").load("#history");
+
+                        //
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]')
+                                    .attr('content')
+                            }
+                        });
+
+                        $.ajax({
+                            type: 'GET',
+                            url: "{{ route('buscarComentarios') }}",
+                            data: "reclamo=" + $('#reclamo').val(),
+                            dataType: 'html',
+
+                            beforeSend: function() {
+                                $('#tbody').remove();
+                                $('#comentario').val('')
+                            },
+                            success: function(response) {
+
+                                $(".tabla").html('<tbody id="tbody"></tbody>');
+                                $("#tbody").append(response);
+
+
+                            },
+
+                            error: function(data, status) {
+
+                            }
+
+                        });
+                        //
                     } else {
                         swal("Error!",
                             "No se pudo realizar el comentario.",
                             "error")
+                        console.log(response)
                     }
 
 
@@ -121,10 +127,52 @@
 
             });
             //
+            e.preventDefault();
 
-            event.preventDefault();
+        }
+    });
 
-        });
+    $('#regForm').submit(function(event) {
+
+    //
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: "{{ route('comentarReclamo') }}",
+        data: $("#regForm").serialize(),
+        dataType: 'html',
+
+        beforeSend: function() {
+
+        },
+        success: function(response) {
+            if (response == 0) {
+                $("#history").load("#history");
+            } else {
+                swal("Error!",
+                    "No se pudo realizar el comentario.",
+                    "error")
+            }
+
+
+
+        },
+
+        error: function(data, status) {
+
+        }
+
+    });
+    //
+
+    event.preventDefault();
+
+    });
 
 
 
@@ -183,39 +231,43 @@
 
     .relative {
         position: fixed;
-  bottom: 0;
-  right: 50%;
-  width: 60%;
-  top: 300px;
-  
+        bottom: 0;
+        right: 50%;
+        width: 60%;
+        top: 300px;
+
 
 
     }
+
     .relative-button {
         position: fixed;
-  bottom: 0px;
-  right: 93%;
-  width: 100px;
-  top: 95%;
-  
+        bottom: 0px;
+        right: 93%;
+        width: 100px;
+        top: 95%;
+
 
 
     }
+
     .relative-button:hover {
         background-color: #202020;
         color: #f1f1f1;
 
 
     }
+
     .buton {
-       float: right;
-       margin-right: -40px;
-       margin-top: -40px;
-       width: 30px;
-       height: 25px;
+        float: right;
+        margin-right: -40px;
+        margin-top: -40px;
+        width: 30px;
+        height: 25px;
 
 
     }
+
     .buton:hover {
         background-color: #202020;
         color: #f1f1f1;
@@ -230,18 +282,30 @@
 
     }
 
+    .back {
+        width: 80px;
+        height: 50px;
+    }
+
+    .back:hover {
+        background-color: #202020;
+        color: #f1f1f1;
+    }
+
 </style>
 <div id="inner" class="inner">
     <h1>Historial del reclamo #{{ $id }}</h1>
+    <button class="back" id="back">atras</button>
+    <button class="back" id="print">Imprimir</button>
     <div id="history">
         <table class="tabla">
 
-<thead>
-  <tr>
-    <th class=" tg-baqh">Hora</th>
-            <th class="tg-0lax">Usuario</th>
-            <th class="tg-0lax">Comentario</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th class=" tg-baqh">Hora</th>
+                    <th class="tg-0lax">Usuario</th>
+                    <th class="tg-0lax">Comentario</th>
+                </tr>
             </thead>
             <tbody id="tbody">
 
@@ -259,19 +323,19 @@
     </div>
     <button id="comentar" class="btn-secondary relative-button">comentar</button>
     <div class="relative">
-        
-    <form id="regForm"  action="">
-        <button id="descomentar" class="btn-secondary buton">X</button>
-        <input type="hidden" id="reclamo" value="{{ $id }}" name="id_reclamo">
 
-        <!-- One "tab" for each step in the form: -->
-        <div class="tab">
+        <form id="regForm" action="">
+            <button id="descomentar" class="btn-secondary buton">X</button>
+            <input type="hidden" id="reclamo" value="{{ $id }}" name="reclamo">
 
-            <p><textarea class="texto" id="comentario" placeholder="Comentario..." name="comentario"></textarea>
-                <br>
+            <!-- One "tab" for each step in the form: -->
+            <div class="tab">
+
+                <p><textarea class="texto" id="comentario" placeholder="Comentario..." name="comentario"></textarea>
+                    <br>
 
 
+            </div>
+        </form>
+        <div>
         </div>
-    </form>
-    <div>
-</div>

@@ -22,7 +22,7 @@ class Tarjeta_cliente extends Model
   {
     return $this->belongsTo('App\Models\Requerimiento', 'id_reclamo', 'id');
   }
-  public function tarjeta()
+  public function tarjetax()
   {
     return $this->belongsTo('App\Models\Tarjeta', 'id_tarjeta', 'id');
   }

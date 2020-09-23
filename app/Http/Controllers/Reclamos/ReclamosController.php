@@ -20,6 +20,23 @@ use Illuminate\Support\Facades\Session;
 class ReclamosController extends Controller
 
 {
+    public function pdf(Request $request)
+    {
+        $id = $request->reclamo;
+        $reclamos = Requerimiento::find($id);
+        $fecha = $reclamos->created_at;
+        $fechaComoEntero = strtotime($fecha);
+        $fecha_reclamo = strtotime($reclamos->fecha);
+        $array =  str_replace(']', '', str_replace('[', '', str_replace('"', '', $reclamos->documentos_entregados)));
+            $array_bd = explode(",", $array);
+        $tarjetas = Tarjeta::all();
+        $pdf = \PDF::loadView('emails/mail', ['reclamo' => $reclamos, 
+                                              'fecha' => $fechaComoEntero,
+                                              'fecha_reclamo' => $fecha_reclamo,
+                                              'tarjetas' => $tarjetas,
+                                              'array_bd' => $array_bd]);
+        return $pdf->download('reclamo-'.$reclamos->numero_reclamo.'.pdf');
+    }
     function reclamos(Request $request)
     {
         $tipo_tarjetas = Tipo_tarjeta::all();
@@ -66,18 +83,20 @@ class ReclamosController extends Controller
         $newReclamo->direccion_cliente = $request->input('direccion');
         $newReclamo->cuenta_afectada_1 = $request->input('cuenta_afectada_1');
         $newReclamo->cuenta_afectada_2 = $request->input('cuenta_afectada_2');
+        $newReclamo->id_usuario = Session('idUsuario');
         $newReclamo->id_tarjeta = $newTarjeta->id;
         $newReclamo->institucion_recaudo = $request->input('insitucion_recaudo');
         $newReclamo->editar = false;
 
         try {
-           
+
             $newReclamo->save();
             Mail::to('kevin.perez@spartan.com')->queue(new Reclamo($newReclamo));
+            
 
-            return 0;
+            return $newReclamo->id;
         } catch (\Exception $e) {
-            return $e;
+            return 1;
         }
     }
     function actualizarReclamo(Request $request)
@@ -91,7 +110,7 @@ class ReclamosController extends Controller
         $Tarjeta->id_tarjeta = $request->input('tarjeta');
         $Tarjeta->numero_tarjeta = $request->input('numero_tarjeta');
         $Tarjeta->tarjeta_bin_perforar = $request->input('tarjeta_bin');
-        
+
 
         $Reclamo->descripcion = $request->input('descripcion');
         $Reclamo->nombre = ucwords($request->input('nombre'));
@@ -113,7 +132,7 @@ class ReclamosController extends Controller
         $Reclamo->institucion_recaudo = $request->input('insitucion_recaudo');
 
         try {
-           
+
             $Reclamo->save();
             $Tarjeta->save();
 
@@ -122,5 +141,8 @@ class ReclamosController extends Controller
             return $e;
         }
     }
-   
+    function return_reclamo(Request $request){
+        $id = $request->reclamo;
+        return $id;
+    }
 }

@@ -72,7 +72,7 @@ class SeguimientoController extends Controller
     {
         $usuario = Session('idUsuario');
         $Reclamo = new Seguimiento;
-        $Reclamo->id_reclamo = $request->input('id_reclamo');
+        $Reclamo->id_reclamo = $request->input('reclamo');
         $Reclamo->id_usuario = $usuario;
         $Reclamo->ultima_actualizacion = $request->input('comentario');
         try {

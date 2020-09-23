@@ -64,12 +64,24 @@
                     data: $("#regForm").serialize(),
                     dataType: 'html',
 
-                    beforeSend: function() {},
+                    beforeSend: function() {
+                        $('.enviar').hide();
+                    },
 
                     success: function(response) {
                         //console.log(response);
-                        if (response == 0) {
-                            swal("Insertado!", "El reclamo ha sido efectuado exitosamente!",
+                        if (response == 1) {
+                            
+                            console.log(response)
+                    swal("Error!",
+                        "Algo ha ocurrido, el reclamo no fue creado por favor intente de nuevo.",
+                        "error");
+
+
+                }
+                else {
+                    id = response;
+                        swal("Insertado!", "El reclamo ha sido efectuado exitosamente!",
                                 "success").then((value) => {
                                 $.ajaxSetup({
                                     headers: {
@@ -86,19 +98,14 @@
                                         $("#wrapper").remove();
                                     },
                                     success: function(response) {
+                                       
+                                        
+                                        window.open("pdf?reclamo="+id, "_blank");
                                         $("#body").html('<div id="wrapper"></div>');
                                         $("#wrapper").append(response);
                                     }
                                 });
                             });
-                       
-
-                }
-                else {
-                    console.log(response)
-                    swal("Error!",
-                        "Algo ha ocurrido, el reclamo no fue creado por favor intente de nuevo.",
-                        "error");
                 }
 
 

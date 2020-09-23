@@ -44,4 +44,8 @@ Route::middleware('Login')->group(function () {
     Route::get('buscarComentarios', [SeguimientoController::class, 'buscarComentarios'])->name('buscarComentarios');
     Route::post('comentarReclamo', [SeguimientoController::class, 'comentarReclamo'])->name('comentarReclamo');
     Route::get('usuarios', [UsuarioController::class, 'listado'])->name('usuarios');
+    Route::get('pdf', [ReclamosController::class, 'pdf'])->name('pdf');
+    Route::get('return_reclamo', [ReclamosController::class, 'return_reclamo'])->name('return_reclamo');
+
+
 });

@@ -1,0 +1,64 @@
+
+body{
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: hidden;
+}
+table, td, th {  
+    border: 2px solid #8E8E8E;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    padding: 2px;
+
+ 
+  }
+  .border{
+    border: 3px solid black;
+  }
+  .titulo{
+    vertical-align: top;
+    text-align: left !important;
+    margin-top: -5px !important;
+    font-size: 13px;
+
+  }
+.align{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    
+}
+.contenido{
+    vertical-align: top;
+    margin-top: -5px;
+    overflow-x: hidden;
+}
+.header{
+    background-color: #B8B8B8;
+}
+.contenedor{
+    width: 100%;
+}
+.font-min{
+    font-size: 10px;
+}
+.font-min-detail{
+    font-size: 11px;
+    margin-top: -25px !important;
+}
+#orangeBox {
+    border-style: solid;
+    border-color: #8C8C8C;
+    color: black;
+    border-radius: 5px;
+  }
+  .font-min-detalles{
+      font-size: 12px;
+      text-align: left;
+  }
