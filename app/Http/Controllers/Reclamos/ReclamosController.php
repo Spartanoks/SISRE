@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reclamos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\Reclamo;
+use App\Mail\test;
 use App\Models\Tarjeta;
 use App\Models\Requerimiento;
 use App\Models\Servicio;
@@ -36,6 +37,13 @@ class ReclamosController extends Controller
                                               'tarjetas' => $tarjetas,
                                               'array_bd' => $array_bd]);
         return $pdf->download('reclamo-'.$reclamos->numero_reclamo.'.pdf');
+  
+    }
+    public function test(Request $request)
+    {
+        $newReclamo = Requerimiento::find(68);
+        Mail::to('kevin.perez@spartan.com')->queue(new Reclamo($newReclamo));
+  
     }
     function reclamos(Request $request)
     {

@@ -19,4 +19,12 @@ class Usuario extends Model
   {
     return $this->belongsTo('App\Models\Estatus', 'estatus', 'id');
   }
+  public function menus()
+  {
+    return $this->belongsTo('App\Models\AcessoMenu', 'id', 'id_usuario');
+  }
+  public function modulos()
+  {
+    return $this->belongsTo('App\Models\AcessoUsuario', 'id', 'id_usuario');
+  }
 }

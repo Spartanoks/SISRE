@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Tarjeta;
 
 class Reclamo extends Mailable
 {
@@ -29,7 +30,17 @@ class Reclamo extends Mailable
      */
     public function build()
     {
-        
-        return $this->view('emails.mail')->subject('Reclamo #'.$this->reclamo->numero_reclamo);
+        $fecha = $this->reclamo->created_at;
+        $fechaComoEntero = strtotime($fecha);
+        $fecha_reclamo = strtotime($this->reclamo->fecha);
+        $array =  str_replace(']', '', str_replace('[', '', str_replace('"', '', $this->reclamo->documentos_entregados)));
+        $array_bd = explode(",", $array);
+        $tarjetas = Tarjeta::all();
+        return $this->view('emails.mail', [
+            'fecha' => $fechaComoEntero,
+            'fecha_reclamo' => $fecha_reclamo,
+            'tarjetas' => $tarjetas,
+            'array_bd' => $array_bd
+        ])->subject('Reclamo #' . $this->reclamo->numero_reclamo);
     }
 }

@@ -19,20 +19,19 @@ use App\Http\Controllers\Seguimiento\SeguimientoController;
 |
 */
 
-Route::post('registrar_usuario', [UsuarioController::class, 'registrar_usuario'])->name('registrar_usuario');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('login', function () {
     return view('auth/login');
 })->name('login');
-Route::get('register', function () {
-    return view('auth/register');
-})->name('register');
 
 Route::middleware('Login')->group(function () {
 
 
     Route::get('/', [MenuController::class, 'main'])->name('/');
+    Route::get('users_menu', [MenuController::class, 'users_menu'])->name('users_menu');
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('registrar_usuario', [UsuarioController::class, 'registrar_usuario'])->name('registrar_usuario');
+    Route::get('register', [UsuarioController::class, 'register'])->name('register');
     Route::get('reclamos', [ReclamosController::class, 'reclamos'])->name('reclamos');
     Route::post('crearReclamo', [ReclamosController::class, 'crearReclamo'])->name('crearReclamo');
     Route::post('actualizarReclamo', [ReclamosController::class, 'actualizarReclamo'])->name('actualizarReclamo');
@@ -46,6 +45,10 @@ Route::middleware('Login')->group(function () {
     Route::get('usuarios', [UsuarioController::class, 'listado'])->name('usuarios');
     Route::get('pdf', [ReclamosController::class, 'pdf'])->name('pdf');
     Route::get('return_reclamo', [ReclamosController::class, 'return_reclamo'])->name('return_reclamo');
+    Route::get('editarUsuario', [UsuarioController::class, 'editarUsuario'])->name('editarUsuario');
+    Route::get('consultarUsuario', [UsuarioController::class, 'consultarUsuario'])->name('consultarUsuario');
+    Route::get('test', [ReclamosController::class, 'test'])->name('test');
+
 
 
 });
