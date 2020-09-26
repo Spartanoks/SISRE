@@ -47,6 +47,7 @@ Route::middleware('Login')->group(function () {
     Route::get('return_reclamo', [ReclamosController::class, 'return_reclamo'])->name('return_reclamo');
     Route::get('editarUsuario', [UsuarioController::class, 'editarUsuario'])->name('editarUsuario');
     Route::get('consultarUsuario', [UsuarioController::class, 'consultarUsuario'])->name('consultarUsuario');
+    Route::post('guardarUsuario', [UsuarioController::class, 'guardarUsuario'])->name('guardarUsuario');
     Route::get('test', [ReclamosController::class, 'test'])->name('test');
 
 

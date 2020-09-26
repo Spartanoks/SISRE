@@ -13,16 +13,16 @@
 
             $.ajax({
                 type: 'POST',
-                url: "{{ route('actualizarReclamo') }}",
+                url: "{{ route('guardarUsuario') }}",
                 data: $("#regForm").serialize(),
                 dataType: 'html',
 
                 beforeSend: function() {},
 
                 success: function(response) {
-                    //console.log(response);
+                    console.log(response);
                     if (response == 0) {
-                        swal("Insertado!", "Se han actualizado los datos correctamente",
+                        swal("Guardado!", "Se han actualizado los datos correctamente",
                             "success").then((value) => {
                             $.ajaxSetup({
                                 headers: {
@@ -33,15 +33,15 @@
                             });
                             $.ajax({
                                 type: 'GET',
-                                url: "{{ route('/') }}",
+                                url: "{{ route('usuarios') }}",
                                 dataType: 'html',
                                 beforeSend: function() {
-                                    $("#wrapper").remove();
+                                    $("#inner").remove();
                                 },
                                 success: function(response) {
-                                    $("#body").html(
-                                        '<div id="wrapper"></div>');
-                                    $("#wrapper").append(response);
+                                    $("#main").html(
+                                        '<div id="inner"></div>');
+                                    $("#inner").append(response);
                                 }
                             });
                         });
@@ -293,7 +293,7 @@
 
 </style>
 <div id="inner" class="inner">
-    
+
     <form id="regForm" action="">
         <input type="hidden" id="id_usuario" value="{{ $usuario->id }}" name="id">
 
@@ -304,57 +304,79 @@
                 value="{{ $usuario->apellido }}"></p>
         <br>
 
+        Cedula:
+        <p><input type="number" name="cedula" value="{{ $usuario->cedula }}" class="required editable"></p>
+
+        <br>
+        <br>
+
         Correo Electroncio:
         <p><input placeholder="Correo..." name="correo" value="{{ $usuario->correo }}" class="required editable"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></p>
 
         <br>
-
-        Sucursal:
-        <p><input placeholder="Correo..." name="sucursal" value="{{ $usuario->sucursal }}"
-                class=" name required editable"></p>
-
-
         <br>
-        Nº de oficina:
-        <p> <input placeholder="Correo..." name="numero_oficina" value="{{ $usuario->numero_oficina }}"
-                class=" name required editable"></p>
-        <br>
-        Acceso de Menus:
-        <p>
-            @foreach ($menus as $menu)
+        @php $array=
+        array('promotor'=>'Promotor','especialista'=>'Especialista','gerente'=>'Gerente','coordinador'=>'Coordinador')
+        ; @endphp
+        <select id="cargo" class="form-control @error('cargo') is-invalid @enderror" name="cargo"
+            value="{{ old('cargo') }}" required autocomplete="cargo" autofocus>
+            <option selected>...</option>
+            @foreach ($array as $arra => $valor)
 
-            @if (in_array($menu->id, $acceso_menus))
-            @php $check='checked="checked"'; @endphp
-        @else
-            @php $check='unchecked'; @endphp
-        @endif
 
-                <input name="menus[]" value="{{ $menu->id }}" {{$check}} type="checkbox" id="menu_{{ $menu->id }}" />
-                <label for="menu_{{ $menu->id }}">{{ $menu->descripcion }}</label>
-
+                <label>
+                    <option value="{{ $arra }}">{{ $valor }}</option </label>
 
             @endforeach
-        </p>
-        <br>
-        Acceso de Modulos:
-        <p>
-            @foreach ($modulos as $modulo)
-
-            @if (in_array($modulo->id, $acceso_modulos))
-            @php $check_modulo='checked="checked"'; @endphp
-        @else
-            @php $check_modulo='unchecked'; @endphp
-        @endif
-
-                <input name="modulos[]" value="{{ $modulo->id }}" {{$check_modulo}} type="checkbox" id="modulo_{{ $modulo->id }}" />
-                <label for="modulo_{{ $modulo->id }}">{{ $modulo->titulo }}</label>
+            <br>
+            Sucursal:
+            <p><input placeholder="Correo..." name="sucursal" value="{{ $usuario->sucursal }}"
+                    class=" name required editable"></p>
 
 
-            @endforeach
-        </p>
-        <br>
-        <button class="enviar" type="submit">Enviar</button>
+            <br>
+            Nº de oficina:
+            <p> <input placeholder="Correo..." name="numero_oficina" value="{{ $usuario->numero_oficina }}"
+                    class=" name required editable"></p>
+            <br>
+            Acceso de Menus:
+            <p>
+                @foreach ($menus as $menu)
+
+                    @if (in_array($menu->id, $acceso_menus))
+                        @php $check='checked="checked"'; @endphp
+                    @else
+                        @php $check='unchecked'; @endphp
+                    @endif
+
+                    <input name="menus[]" value="{{ $menu->id }}" {{ $check }} type="checkbox"
+                        id="menu_{{ $menu->id }}" />
+                    <label for="menu_{{ $menu->id }}">{{ $menu->descripcion }}</label>
+
+
+                @endforeach
+            </p>
+            <br>
+            Acceso de Modulos:
+            <p>
+                @foreach ($modulos as $modulo)
+
+                    @if (in_array($modulo->id, $acceso_modulos))
+                        @php $check_modulo='checked="checked"'; @endphp
+                    @else
+                        @php $check_modulo='unchecked'; @endphp
+                    @endif
+
+                    <input name="modulos[]" value="{{ $modulo->id }}" {{ $check_modulo }} type="checkbox"
+                        id="modulo_{{ $modulo->id }}" />
+                    <label for="modulo_{{ $modulo->id }}">{{ $modulo->titulo }}</label>
+
+
+                @endforeach
+            </p>
+            <br>
+            <button class="enviar" type="submit">Enviar</button>
 
 
     </form>
