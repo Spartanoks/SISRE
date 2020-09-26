@@ -319,17 +319,21 @@
         @php $array=
         array('promotor'=>'Promotor','especialista'=>'Especialista','gerente'=>'Gerente','coordinador'=>'Coordinador')
         ; @endphp
-        <select id="cargo" class="form-control @error('cargo') is-invalid @enderror" name="cargo"
-            value="{{ old('cargo') }}" required autocomplete="cargo" autofocus>
-            <option selected>...</option>
+        <select id="cargo" class="form-control" name="cargo"
+            value="" required autocomplete="cargo" autofocus>
+            <option>...</option>
             @foreach ($array as $arra => $valor)
 
 
                 <label>
-                    <option value="{{ $arra }}">{{ $valor }}</option </label>
+                    <option value="{{ $arra }}"  @if ( $usuario->cargo == $arra )
+                        selected
+                    @endif>{{ $valor }}</option> </label>
 
             @endforeach
+                    </select>
             <br>
+           
             Sucursal:
             <p><input placeholder="Correo..." name="sucursal" value="{{ $usuario->sucursal }}"
                     class=" name required editable"></p>
