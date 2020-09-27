@@ -46,7 +46,7 @@
                 type: 'POST',
                 url: "{{ route('registrar_usuario') }}",
                 data: $("#RegistroUsuario").serialize(),
-                dataType: 'json',
+                dataType: 'html',
 
                 beforeSend: function() {},
 

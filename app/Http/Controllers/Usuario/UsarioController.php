@@ -36,26 +36,35 @@ class UsuarioController extends Controller
         $newUsuario->password = Hash::make($request->input('password'));
         $menus = $request->input('menus');
         $modulos = $request->input('modulos');
+        
         try {
             $newUsuario->save();
-            foreach ($menus as $menu  => $menu_valor) {
-                $newMenu = new AccesoMenu;
-                $newMenu->id_usuario = $newUsuario->id;
-                $newMenu->id_menu = $menu_valor;
-                $newMenu->save();
+           
+            if($menus == ""){
+                $mena = "";
+            }else{
+                foreach ($menus as $menu  => $menu_valor) {
+                    $newMenu = new AccesoMenu;
+                    $newMenu->id_usuario = $newUsuario->id;
+                    $newMenu->id_menu = $menu_valor;
+                    $newMenu->save();
+                }
             }
-            foreach ($modulos as $modulo  => $modulo_valor) {
-                $newModulo = new AccesoUsuario;
-                $newModulo->id_usuario = $newUsuario->id;
-                $newModulo->id_modulo = $modulo_valor;
-                $newModulo->save();
+            if($modulos == ""){
+                $mena = "";
+    
+            }else{
+                foreach ($modulos as $modulo  => $modulo_valor) {
+                    $newModulo = new AccesoUsuario;
+                    $newModulo->id_usuario = $newUsuario->id;
+                    $newModulo->id_modulo = $modulo_valor;
+                    $newModulo->save();
+                }
             }
-
-
 
             return 0;
         } catch (\Exception $e) {
-            return 1;
+            return $e;
         }
     }
 
@@ -123,17 +132,26 @@ class UsuarioController extends Controller
         $modulos = $request->input('modulos');
         try {
             $Usuario->save();
-            foreach ($menus as $menu  => $menu_valor) {
-                $newMenu = new AccesoMenu;
-                $newMenu->id_usuario = $Usuario->id;
-                $newMenu->id_menu = $menu_valor;
-                $newMenu->save();
+            if($menus == ""){
+                $mena = "";
+            }else{
+                foreach ($menus as $menu  => $menu_valor) {
+                    $newMenu = new AccesoMenu;
+                    $newMenu->id_usuario = $Usuario->id;
+                    $newMenu->id_menu = $menu_valor;
+                    $newMenu->save();
+                }
             }
-            foreach ($modulos as $modulo  => $modulo_valor) {
-                $newModulo = new AccesoUsuario;
-                $newModulo->id_usuario = $Usuario->id;
-                $newModulo->id_modulo = $modulo_valor;
-                $newModulo->save();
+            if($modulos == ""){
+                $mena = "";
+    
+            }else{
+                foreach ($modulos as $modulo  => $modulo_valor) {
+                    $newModulo = new AccesoUsuario;
+                    $newModulo->id_usuario = $Usuario->id;
+                    $newModulo->id_modulo = $modulo_valor;
+                    $newModulo->save();
+                }
             }
             return 0;
         } catch (\Exception $e) {
