@@ -22,7 +22,9 @@ class SeguimientoController extends Controller
     function seguimiento(Request $request)
     {
 
-        return view('seguimiento/buscador');
+        $cargo = session('cargoUsuario');
+        $reclamos = Requerimiento::latest()->take(5)->get();
+        return view('seguimiento/buscador', compact('cargo','reclamos'));
     }
     function seguimiento_especifico(Request $request)
     {
@@ -55,6 +57,20 @@ class SeguimientoController extends Controller
         $reclamo->editar = $editar;
         try {
             $reclamo->save();
+
+            return 0;
+        } catch (\Exception $e) {
+            return 1;
+        }
+    }
+    function editarReclamoEstatus(Request $request)
+    {
+        $estatus = $request->estatus;
+        $id = $request->reclamo;
+        $usuario = Requerimiento::find($id);
+        $usuario->estatus = $estatus;
+        try {
+            $usuario->save();
 
             return 0;
         } catch (\Exception $e) {

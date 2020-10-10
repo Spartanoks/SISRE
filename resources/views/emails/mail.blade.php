@@ -166,7 +166,7 @@ table, td, th {
                 <tr>
                     <td colspan="3">
                         <p class="titulo">Nº de tarjeta:</p>
-                        {{ $reclamo->numero_tarjeta }}
+                        {{ $reclamo->tarjeta->numero_tarjeta }}
                     </td>
                 </tr>
 
@@ -340,6 +340,7 @@ table, td, th {
                 Pago
                 Electrónico.
             </div>
+            <br>
             <table>
                 <tr>
                     <th class="header" colspan="6">SOLO PARA USO DE LA UNIDAD DE ATENCIÓN AL CLIENTE</th>

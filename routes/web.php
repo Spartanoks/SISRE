@@ -39,6 +39,7 @@ Route::middleware('Login')->group(function () {
     Route::get('seguimiento', [SeguimientoController::class, 'seguimiento'])->name('seguimiento');
     Route::post('seguimiento_especifico', [SeguimientoController::class, 'seguimiento_especifico'])->name('seguimiento_especifico');
     Route::get('editarRegistro', [SeguimientoController::class, 'editarRegistro'])->name('editarRegistro');
+    Route::get('editarReclamoEstatus', [SeguimientoController::class, 'editarReclamoEstatus'])->name('editarReclamoEstatus');
     Route::get('actualizacionesReclamo', [SeguimientoController::class, 'actualizacionesReclamo'])->name('actualizacionesReclamo');
     Route::get('buscarComentarios', [SeguimientoController::class, 'buscarComentarios'])->name('buscarComentarios');
     Route::post('comentarReclamo', [SeguimientoController::class, 'comentarReclamo'])->name('comentarReclamo');

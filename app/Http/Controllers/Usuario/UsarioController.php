@@ -117,6 +117,7 @@ class UsuarioController extends Controller
     }
     function guardarUsuario(Request $request)
     {
+        session()->forget('cargoUsuario');
         $id = $request->input('id');
         $menus = AccesoMenu::where('id_usuario', '=', $id)->delete();
         $modulos = AccesoUsuario::where('id_usuario', '=', $id)->delete();
@@ -132,6 +133,7 @@ class UsuarioController extends Controller
         $modulos = $request->input('modulos');
         try {
             $Usuario->save();
+            Session::put('cargoUsuario', $request->input('cargo'));
             if($menus == ""){
                 $mena = "";
             }else{
